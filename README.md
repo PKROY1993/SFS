@@ -1,6 +1,6 @@
 # Maine Speed Feedback Message Signs
 
-This folder contains a simple GitHub Pages-ready project website for the Maine **Speed Feedback Message Signs** project.
+This folder contains webpage for the Maine **Speed Feedback Message Signs** project.
 
 ## Files
 - `index.html` — main project webpage
