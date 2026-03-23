@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Maine Speed Feedback Message Signs</title>
+  <meta name="description" content="GitHub-ready project website for Maine Speed Feedback Message Signs with a project image, interactive KML map, and dark/light mode." />
 
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://unpkg.com" crossorigin>
@@ -25,14 +26,29 @@
   <style>
     :root {
       --bg: #f4f7fb;
+      --bg-2: #eef3f9;
       --card: #ffffff;
+      --card-2: #f8fbff;
       --ink: #102033;
       --muted: #5f6f85;
       --border: #d9e2ef;
+      --border-soft: #e9eff7;
       --brand: #0f5ba7;
       --brand-2: #1b7f5d;
       --accent: #b35c1e;
-      --shadow: 0 14px 32px rgba(16, 32, 51, 0.08);
+      --shadow: 0 16px 36px rgba(16, 32, 51, 0.08);
+      --chip-bg: #ffffff;
+      --input-bg: #ffffff;
+      --hover: #edf5ff;
+      --table-head: #f8fbff;
+      --banner-bg: linear-gradient(135deg, #fff6ed, #fffdf8);
+      --banner-border: #f3d7be;
+      --banner-ink: #844116;
+      --header-bg: rgba(255, 255, 255, 0.9);
+      --header-border: #dce6f1;
+      --hero-panel: linear-gradient(135deg, #0f5ba7, #123f73);
+      --hero-panel-ink: #ffffff;
+      --tile-filter: none;
       --trip-1: #2563eb;
       --trip-2: #16a34a;
       --trip-3: #d97706;
@@ -41,236 +57,617 @@
       --trip-6: #0891b2;
     }
 
+    html[data-theme="dark"] {
+      --bg: #08111d;
+      --bg-2: #0c1726;
+      --card: #101a28;
+      --card-2: #162132;
+      --ink: #e8eef7;
+      --muted: #9db0c5;
+      --border: #263446;
+      --border-soft: #1d2b3d;
+      --chip-bg: #141f2f;
+      --input-bg: #141f2f;
+      --hover: #172538;
+      --table-head: #162132;
+      --banner-bg: linear-gradient(135deg, #382111, #26170d);
+      --banner-border: #6c4220;
+      --banner-ink: #ffd9b8;
+      --header-bg: rgba(8, 17, 29, 0.9);
+      --header-border: #233244;
+      --hero-panel: linear-gradient(135deg, #102746, #153158);
+      --hero-panel-ink: #ffffff;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+      --tile-filter: invert(100%) hue-rotate(180deg) brightness(92%) contrast(90%);
+    }
+
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      background: var(--bg);
       color: var(--ink);
       font-family: "Times New Roman", Times, serif;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
     }
 
-    .shell { max-width: 1350px; margin: 0 auto; padding: 0 20px 40px; }
-    .glass {
-      background: rgba(255,255,255,0.84);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(217,226,239,0.9);
-      box-shadow: var(--shadow);
+    .shell {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 20px 44px;
     }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      border-bottom: 1px solid var(--header-border);
+      background: var(--header-bg);
+      backdrop-filter: blur(12px);
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 0;
+    }
+
+    .brand-kicker {
+      font-size: 0.9rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: 2rem;
+      line-height: 1.1;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .nav-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-link,
+    .theme-toggle {
+      text-decoration: none;
+      color: var(--muted);
+      border: 1px solid transparent;
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-size: 1rem;
+      background: transparent;
+      cursor: pointer;
+      font-family: inherit;
+      transition: 0.2s ease;
+    }
+
+    .nav-link:hover,
+    .theme-toggle:hover {
+      color: var(--ink);
+      border-color: var(--border);
+      background: var(--chip-bg);
+    }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .theme-icon {
+      width: 24px;
+      height: 24px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(15, 91, 167, 0.12);
+      color: var(--brand);
+      font-size: 0.95rem;
+    }
+
+    .main-stack {
+      margin-top: 24px;
+      display: grid;
+      gap: 22px;
+    }
+
     .section-card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 24px;
       box-shadow: var(--shadow);
     }
-    .tiny { font-size: 0.85rem; color: var(--muted); }
+
+    .section-pad { padding: 26px; }
+
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.25fr 0.75fr;
+      grid-template-columns: 1.08fr 0.92fr;
       gap: 22px;
       align-items: stretch;
     }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid #cfe0f4;
+      background: #edf5ff;
+      color: #154b7b;
+      font-size: 0.95rem;
+    }
+
+    html[data-theme="dark"] .eyebrow {
+      background: #102744;
+      border-color: #2a4f77;
+      color: #d2e5ff;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      display: inline-block;
+      flex: 0 0 10px;
+    }
+
+    .hero-title {
+      margin: 18px 0 0;
+      font-size: 3rem;
+      line-height: 1.1;
+      font-weight: 700;
+    }
+
+    .hero-title span { color: var(--brand); }
+
+    .hero-text {
+      margin: 18px 0 0;
+      color: var(--ink);
+      font-size: 1.16rem;
+      line-height: 1.8;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--chip-bg);
+      color: var(--ink);
+      font-size: 0.95rem;
+    }
+
+    .project-photo-card {
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .project-photo-wrap {
+      position: relative;
+      min-height: 360px;
+      background: #dbe7f2;
+    }
+
+    .project-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .project-photo-overlay {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 24px;
+      color: #fff;
+      background: linear-gradient(180deg, rgba(8, 18, 31, 0.02) 0%, rgba(8, 18, 31, 0.76) 65%, rgba(8, 18, 31, 0.9) 100%);
+    }
+
+    .photo-kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: 0.82rem;
+      opacity: 0.92;
+    }
+
+    .photo-title {
+      margin: 10px 0 0;
+      font-size: 2rem;
+      line-height: 1.18;
+      font-weight: 700;
+    }
+
+    .photo-text {
+      margin: 12px 0 0;
+      font-size: 1rem;
+      line-height: 1.75;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .photo-facts {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      padding: 22px 24px 24px;
+      background: var(--hero-panel);
+      color: var(--hero-panel-ink);
+    }
+
+    .fact-label {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .fact-value {
+      margin-top: 8px;
+      font-size: 1.55rem;
+      line-height: 1.1;
+      font-weight: 700;
+    }
+
     .stat-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 14px;
     }
+
     .stat-card {
-      border-radius: 18px;
-      padding: 18px;
-      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      padding: 20px;
+      border-radius: 20px;
       border: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--card) 0%, var(--card-2) 100%);
     }
-    .stat-number {
-      font-size: 2rem;
-      font-weight: 700;
-      line-height: 1;
-      margin-top: 10px;
-    }
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #fff;
-      font-size: 0.92rem;
-    }
-    .chip .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      display: inline-block;
-    }
-    .trip-dot-1 { background: var(--trip-1); }
-    .trip-dot-2 { background: var(--trip-2); }
-    .trip-dot-3 { background: var(--trip-3); }
-    .trip-dot-4 { background: var(--trip-4); }
-    .trip-dot-5 { background: var(--trip-5); }
-    .trip-dot-6 { background: var(--trip-6); }
 
-    .nav-link {
+    .tiny {
+      font-size: 0.9rem;
       color: var(--muted);
-      text-decoration: none;
-      font-size: 1rem;
-      padding: 8px 10px;
-      border-radius: 10px;
     }
-    .nav-link:hover { background: rgba(15,91,167,0.08); color: var(--brand); }
 
-    #map {
-      height: 640px;
-      width: 100%;
-      border-radius: 18px;
-      border: 1px solid var(--border);
+    .stat-number {
+      margin-top: 10px;
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 700;
+      color: var(--ink);
     }
-    .leaflet-popup-content-wrapper { border-radius: 14px; }
-    .leaflet-container { font-family: "Times New Roman", Times, serif; }
 
-    .site-list {
-      max-height: 640px;
-      overflow: auto;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: #fff;
-    }
-    .site-row {
-      padding: 14px 16px;
-      border-bottom: 1px solid #edf2f8;
-      cursor: pointer;
-    }
-    .site-row:last-child { border-bottom: 0; }
-    .site-row:hover, .site-row.active { background: #edf5ff; }
-
+    .two-col,
+    .chart-grid,
+    .notes-grid,
+    .workflow-grid,
     .details-grid {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
       gap: 22px;
     }
-    .table-wrap { overflow: auto; }
-    table { width: 100%; border-collapse: collapse; background: #fff; }
-    th, td {
-      padding: 12px 14px;
-      border-bottom: 1px solid #edf2f8;
-      text-align: left;
-      vertical-align: top;
-      font-size: 0.98rem;
+
+    .two-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .chart-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .notes-grid { grid-template-columns: 1.1fr 0.9fr; }
+    .workflow-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .details-grid { grid-template-columns: 1.12fr 0.88fr; }
+
+    .section-title {
+      margin: 0;
+      font-size: 2rem;
+      line-height: 1.12;
+      font-weight: 700;
+      color: var(--ink);
     }
-    th {
-      background: #f8fbff;
-      position: sticky;
-      top: 0;
-      z-index: 1;
+
+    .copy {
+      margin: 14px 0 0;
+      color: var(--ink);
+      line-height: 1.85;
+      font-size: 1.06rem;
     }
+
+    .soft-card {
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: var(--card-2);
+    }
+
+    .note-banner {
+      padding: 18px 20px;
+      border-radius: 18px;
+      border: 1px solid var(--banner-border);
+      background: var(--banner-bg);
+      color: var(--banner-ink);
+      line-height: 1.75;
+      font-size: 1rem;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
     .btn {
       border: 1px solid var(--border);
-      background: #fff;
-      color: var(--ink);
       border-radius: 12px;
       padding: 10px 14px;
       cursor: pointer;
-      font-size: 0.95rem;
+      font-size: 0.97rem;
+      background: var(--chip-bg);
+      color: var(--ink);
+      font-family: inherit;
+      transition: 0.18s ease;
     }
-    .btn:hover { background: #f5f9ff; }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--brand), #2f78c4);
-      color: #fff;
-      border-color: transparent;
-    }
-    .btn-primary:hover { filter: brightness(1.03); }
+
+    .btn:hover { transform: translateY(-1px); }
+
     .btn-green {
       background: linear-gradient(135deg, var(--brand-2), #24966f);
       color: #fff;
       border-color: transparent;
     }
-    .input, .select {
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 18px 0 16px;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .input,
+    .select,
+    .summary-box {
       width: 100%;
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 0.95rem;
-      background: #fff;
+      padding: 11px 12px;
+      font-size: 0.98rem;
+      background: var(--input-bg);
+      color: var(--ink);
+      font-family: inherit;
+    }
+
+    #map {
+      height: 650px;
+      width: 100%;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .leaflet-container { font-family: "Times New Roman", Times, serif; }
+    .leaflet-tile { filter: var(--tile-filter); }
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background: var(--card);
       color: var(--ink);
     }
-    .banner {
+
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .site-list {
+      max-height: 650px;
+      overflow: auto;
+      border: 1px solid var(--border);
       border-radius: 18px;
-      padding: 18px 20px;
-      border: 1px solid #f3d7be;
-      background: linear-gradient(135deg, #fff6ed, #fffdf8);
-      color: #844116;
+      background: var(--card);
     }
 
-    @media (max-width: 1100px) {
-      .hero-grid, .details-grid { grid-template-columns: 1fr; }
+    .site-row {
+      padding: 15px 16px;
+      border-bottom: 1px solid var(--border-soft);
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+
+    .site-row:last-child { border-bottom: 0; }
+    .site-row:hover,
+    .site-row.active { background: var(--hover); }
+
+    .selected-site {
+      min-height: 235px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--card-2);
+      padding: 18px;
+    }
+
+    .stat-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .mini-card {
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      padding: 12px;
+    }
+
+    .table-wrap {
+      max-height: 540px;
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-soft);
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.98rem;
+      color: var(--ink);
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: var(--table-head);
+    }
+
+    .list-disc,
+    .list-decimal {
+      margin: 12px 0 0;
+      padding-left: 22px;
+      color: var(--ink);
+      line-height: 1.85;
+    }
+
+    .list-disc li,
+    .list-decimal li { margin-bottom: 6px; }
+
+    .footer-note {
+      text-align: center;
+      color: var(--muted);
+      padding-top: 4px;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 1180px) {
+      .hero-grid,
+      .details-grid,
+      .notes-grid,
+      .workflow-grid,
+      .chart-grid,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
       .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      #map, .site-list { max-height: none; height: 520px; }
-      .site-list { height: auto; }
+      .photo-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .control-grid { grid-template-columns: 1fr; }
+      #map,
+      .site-list { height: 540px; max-height: none; }
     }
 
-    @media (max-width: 680px) {
+    @media (max-width: 760px) {
       .shell { padding: 0 14px 28px; }
-      .stat-grid { grid-template-columns: 1fr; }
-      #map { height: 420px; }
-      .stat-number { font-size: 1.7rem; }
+      .header-row { flex-direction: column; align-items: flex-start; }
+      .nav-wrap { width: 100%; }
+      .hero-title { font-size: 2.3rem; }
+      .brand-title { font-size: 1.7rem; }
+      .stat-grid,
+      .photo-facts { grid-template-columns: 1fr; }
+      #map { height: 430px; }
+      .site-list { height: auto; }
+      .btn-row { justify-content: flex-start; }
     }
   </style>
 </head>
 <body>
-  <header class="sticky top-0 z-[999] border-b border-slate-200 bg-white/90 backdrop-blur">
-    <div class="shell py-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+  <header class="site-header">
+    <div class="shell header-row">
       <div>
-        <div class="text-sm uppercase tracking-[0.25em] text-slate-500">Maine Project Dashboard</div>
-        <h1 class="text-3xl font-bold m-0">Speed Feedback Message Signs</h1>
+        <div class="brand-kicker">Maine Project Dashboard</div>
+        <h1 class="brand-title">Speed Feedback Message Signs</h1>
       </div>
-      <nav class="flex flex-wrap gap-2">
+      <div class="nav-wrap">
         <a class="nav-link" href="#overview">Overview</a>
         <a class="nav-link" href="#map-section">Map</a>
         <a class="nav-link" href="#sites">Sites</a>
         <a class="nav-link" href="#workflow">Workflow</a>
         <a class="nav-link" href="#github-notes">GitHub Notes</a>
-      </nav>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">
+          <span class="theme-icon">☾</span>
+          <span id="themeToggleLabel">Dark mode</span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <main class="shell mt-6 space-y-6">
+  <main class="shell main-stack">
     <section id="overview" class="hero-grid">
-      <div class="section-card p-7">
-        <div class="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-2 text-sm text-blue-800 border border-blue-200">
-          <span class="h-2.5 w-2.5 rounded-full bg-blue-700"></span>
+      <div class="section-card section-pad">
+        <div class="eyebrow">
+          <span class="dot" style="background: var(--brand);"></span>
           Maine-focused safety project for Speed Feedback Message Signs
         </div>
-        <h2 class="mt-5 text-4xl leading-tight font-bold">A GitHub-ready project page for your <span style="color: var(--brand);">Speed Feedback Message Signs</span> study in Maine</h2>
-        <p class="mt-4 text-lg leading-8 text-slate-700">
-          This version replaces the earlier toolkit-style content with a Maine-specific project site.
-          It highlights your statewide project total, loads site locations directly from the uploaded KML,
-          groups the current mapped routes, and provides a clean structure you can publish on GitHub Pages.
+        <h2 class="hero-title">A GitHub-ready project page for your <span>Speed Feedback Message Signs</span> study in Maine</h2>
+        <p class="hero-text">
+          This updated version gives your project website a stronger visual identity with a dedicated project image,
+          a cleaner GitHub Pages presentation, an interactive KML-driven site map, and a built-in dark/light mode toggle.
+          It keeps the statewide project scope visible while remaining honest about the mapped subset currently loaded from the KML.
         </p>
-        <div class="mt-5 flex flex-wrap gap-3">
-          <span class="chip"><span class="dot" style="background: var(--brand);"></span> Maine focus</span>
-          <span class="chip"><span class="dot" style="background: var(--brand-2);"></span> 92 total project locations</span>
-          <span class="chip"><span class="dot" style="background: var(--accent);"></span> KML-driven interactive map</span>
-          <span class="chip"><span class="dot" style="background: #7c3aed;"></span> GitHub Pages compatible</span>
+        <div class="chip-row">
+          <span class="chip"><span class="dot" style="background: var(--brand);"></span>Maine focus</span>
+          <span class="chip"><span class="dot" style="background: var(--brand-2);"></span>92 total project locations</span>
+          <span class="chip"><span class="dot" style="background: var(--accent);"></span>KML-driven interactive map</span>
+          <span class="chip"><span class="dot" style="background: #7c3aed;"></span>Dark and light mode</span>
         </div>
       </div>
 
-      <div class="section-card p-7 bg-[linear-gradient(135deg,#0f5ba7,#123f73)] text-white">
-        <div class="text-sm uppercase tracking-[0.24em] text-blue-100">Project snapshot</div>
-        <div class="mt-6 space-y-5">
+      <div class="section-card project-photo-card">
+        <div class="project-photo-wrap">
+          <img id="heroProjectPhoto" class="project-photo" src="project-photo.png" alt="Illustration of a speed feedback message sign on a Maine roadway" />
+          <div class="project-photo-overlay">
+            <div class="photo-kicker">Project illustration</div>
+            <div class="photo-title">Visual identity for the Maine SFMS project</div>
+            <p class="photo-text">
+              The homepage now uses your project image to make the site feel more complete for GitHub, presentations, and research sharing.
+            </p>
+          </div>
+        </div>
+        <div class="photo-facts">
           <div>
-            <div class="text-sm text-blue-100">Current focus</div>
-            <div class="text-2xl font-bold">Maine Speed Feedback Message Signs</div>
+            <div class="fact-label">Current focus</div>
+            <div class="fact-value">Maine SFMS</div>
           </div>
           <div>
-            <div class="text-sm text-blue-100">Map source</div>
-            <div class="text-xl font-bold">DSFS_SiteVisitMap.kml</div>
+            <div class="fact-label">Map source</div>
+            <div class="fact-value">KML file</div>
           </div>
           <div>
-            <div class="text-sm text-blue-100">What this page does</div>
-            <div class="leading-7 text-[1.05rem] text-blue-50">
-              Loads the KML automatically, builds a searchable site inventory, groups site-visit loops,
-              and keeps the statewide project count visible for presentation and portfolio use.
-            </div>
+            <div class="fact-label">Theme support</div>
+            <div class="fact-value">Light + Dark</div>
           </div>
         </div>
       </div>
@@ -280,133 +677,128 @@
       <div class="stat-card">
         <div class="tiny">Total project locations</div>
         <div class="stat-number" id="statTotalProject">92</div>
-        <div class="tiny mt-2">Statewide SFMS locations for the Maine project</div>
+        <div class="tiny" style="margin-top:10px;">Statewide SFMS locations for the Maine project</div>
       </div>
       <div class="stat-card">
         <div class="tiny">Mapped in current KML</div>
         <div class="stat-number" id="statMapped">—</div>
-        <div class="tiny mt-2">Point sites currently available in the uploaded KML</div>
+        <div class="tiny" style="margin-top:10px;">Point sites currently available in the uploaded KML</div>
       </div>
       <div class="stat-card">
         <div class="tiny">Trip groups in KML</div>
         <div class="stat-number" id="statTrips">—</div>
-        <div class="tiny mt-2">Grouped automatically from visit-order resets</div>
+        <div class="tiny" style="margin-top:10px;">Grouped automatically from visit-order resets</div>
       </div>
       <div class="stat-card">
         <div class="tiny">Coverage status</div>
         <div class="stat-number" id="statCoverage">—</div>
-        <div class="tiny mt-2">Mapped KML points as a share of the 92 total project sites</div>
+        <div class="tiny" style="margin-top:10px;">Mapped KML points as a share of the 92 total project sites</div>
       </div>
     </section>
 
-    <section class="section-card p-6">
-      <div class="grid lg:grid-cols-2 gap-6">
-        <div>
-          <h3 class="text-2xl font-bold m-0">Project framing</h3>
-          <p class="mt-3 text-slate-700 leading-8">
-            Speed Feedback Message Signs are being examined across Maine as a practical speed-management and safety-support tool.
-            This page is designed for GitHub deployment and can function as a project website, portfolio entry, or field-visit dashboard.
-          </p>
-        </div>
-        <div>
-          <h3 class="text-2xl font-bold m-0">Suggested sections for your final research site</h3>
-          <ul class="mt-3 space-y-2 leading-8 text-slate-700 pl-5 list-disc">
-            <li>Project background and why SFMS matters in Maine.</li>
-            <li>Map of sign locations, grouped by field-visit route or district.</li>
-            <li>Site inventory table with coordinates and visit order.</li>
-            <li>Methodology, data collection, before-after speed analysis, and findings.</li>
-            <li>Photos, installation status, and future policy or engineering recommendations.</li>
-          </ul>
-        </div>
+    <section class="two-col">
+      <div class="section-card section-pad">
+        <h3 class="section-title">Project framing</h3>
+        <p class="copy">
+          Speed Feedback Message Signs are being examined across Maine as a practical speed-management and safety-support tool.
+          This page can work as a project website, portfolio entry, field dashboard, or presentation companion.
+        </p>
+      </div>
+      <div class="section-card section-pad">
+        <h3 class="section-title">Suggested sections for your final research site</h3>
+        <ul class="list-disc">
+          <li>Project background and why SFMS matters in Maine.</li>
+          <li>Map of sign locations, grouped by field-visit route or district.</li>
+          <li>Site inventory table with coordinates and visit order.</li>
+          <li>Methodology, before-after speed analysis, and findings.</li>
+          <li>Photos, installation status, and future engineering recommendations.</li>
+        </ul>
       </div>
     </section>
 
-    <section class="banner">
+    <section class="note-banner">
       <strong>Important note:</strong>
-      Your message says the project has <strong>92 total locations</strong>, but the uploaded <strong>KML currently contains a smaller mapped subset</strong>.
-      This page shows both numbers clearly so the website stays honest while still reflecting the full project scope.
+      Your project scope is <strong>92 total locations</strong>, while the uploaded <strong>KML contains the mapped subset currently available</strong>.
+      The dashboard shows both values clearly so the website stays accurate while still reflecting the full Maine project.
     </section>
 
     <section id="map-section" class="details-grid">
-      <div class="section-card p-5">
-        <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+      <div class="section-card section-pad">
+        <div style="display:flex; gap:16px; justify-content:space-between; align-items:flex-end; flex-wrap:wrap;">
           <div>
-            <h3 class="text-2xl font-bold m-0">Interactive Maine site map</h3>
-            <p class="tiny mt-2">Click a marker or a table row to inspect a location. Use the filters to narrow the current KML subset.</p>
+            <h3 class="section-title">Interactive Maine site map</h3>
+            <p class="copy" style="margin-top:10px; font-size:1rem;">Click a marker or a site row to inspect a location. Use the filters to narrow the current KML subset.</p>
           </div>
-          <div class="flex flex-wrap gap-2">
-            <button class="btn" id="fitAllBtn">Fit all sites</button>
-            <button class="btn" id="clearBtn">Clear selection</button>
-            <button class="btn btn-green" id="downloadCsvBtn">Download loaded sites CSV</button>
+          <div class="btn-row">
+            <button class="btn" id="fitAllBtn" type="button">Fit all sites</button>
+            <button class="btn" id="clearBtn" type="button">Clear selection</button>
+            <button class="btn btn-green" id="downloadCsvBtn" type="button">Download loaded sites CSV</button>
           </div>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-3 mt-4 mb-4">
+        <div class="control-grid">
           <div>
-            <label class="tiny block mb-1">Search a site</label>
+            <label class="label" for="searchInput">Search a site</label>
             <input id="searchInput" class="input" type="text" placeholder="Type Orono, Brunswick, Route 1, etc." />
           </div>
           <div>
-            <label class="tiny block mb-1">Filter by trip group</label>
+            <label class="label" for="tripFilter">Filter by trip group</label>
             <select id="tripFilter" class="select">
               <option value="all">All trip groups</option>
             </select>
           </div>
           <div>
-            <label class="tiny block mb-1">Loaded subset summary</label>
-            <div class="input bg-slate-50" id="subsetSummary">Loading KML data…</div>
+            <label class="label">Loaded subset summary</label>
+            <div class="summary-box" id="subsetSummary">Loading KML data…</div>
           </div>
         </div>
 
         <div id="map"></div>
-
-        <div class="mt-4 flex flex-wrap gap-2" id="legendChips"></div>
+        <div class="legend-row" id="legendChips"></div>
       </div>
 
-      <div class="space-y-6">
-        <div class="section-card p-5">
-          <h3 class="text-2xl font-bold m-0">Selected site</h3>
-          <div id="selectedSiteBox" class="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-5 min-h-[220px]">
+      <div class="side-stack">
+        <div class="section-card section-pad">
+          <h3 class="section-title">Selected site</h3>
+          <div id="selectedSiteBox" class="selected-site">
             <div class="tiny">No site selected yet.</div>
-            <div class="mt-2 text-xl font-bold">Click any marker or row from the site list.</div>
-            <p class="mt-3 text-slate-700 leading-7">
-              This panel will show the site name, inferred trip group, visit order, and coordinates.
-            </p>
+            <div style="margin-top:8px; font-size:1.5rem; font-weight:700; color:var(--ink);">Click any marker or row from the site list.</div>
+            <p class="copy" style="margin-top:12px; font-size:1rem;">This panel will show the site name, inferred trip group, visit order, and coordinates.</p>
           </div>
         </div>
 
-        <div class="section-card p-5">
-          <h3 class="text-2xl font-bold m-0">Loaded site list</h3>
-          <div class="site-list mt-4" id="siteList"></div>
+        <div class="section-card section-pad">
+          <h3 class="section-title">Loaded site list</h3>
+          <div class="site-list" id="siteList" style="margin-top:16px;"></div>
         </div>
       </div>
     </section>
 
-    <section class="grid lg:grid-cols-2 gap-6">
-      <div class="section-card p-5">
-        <h3 class="text-2xl font-bold m-0">Trip-group distribution</h3>
-        <p class="tiny mt-2">Counts are based on the currently loaded KML point locations.</p>
-        <div class="mt-4"><canvas id="tripChart" height="230"></canvas></div>
+    <section class="chart-grid">
+      <div class="section-card section-pad">
+        <h3 class="section-title">Trip-group distribution</h3>
+        <p class="copy" style="margin-top:10px; font-size:1rem;">Counts are based on the currently loaded KML point locations.</p>
+        <div style="margin-top:16px;"><canvas id="tripChart" height="230"></canvas></div>
       </div>
-      <div class="section-card p-5">
-        <h3 class="text-2xl font-bold m-0">How the current grouping works</h3>
-        <p class="mt-3 text-slate-700 leading-8">
+      <div class="section-card section-pad">
+        <h3 class="section-title">How the current grouping works</h3>
+        <p class="copy" style="margin-top:10px; font-size:1rem;">
           The current KML uses repeated visit numbering, so this page automatically creates a new trip group each time the numbering resets.
-          That makes the dashboard flexible: if you later replace the KML with a fuller statewide file, the page will still adapt.
+          That keeps the dashboard flexible if you later replace the KML with a fuller statewide file.
         </p>
-        <div class="mt-4 grid gap-3" id="tripSummaryCards"></div>
+        <div id="tripSummaryCards" style="margin-top:16px; display:grid; gap:12px;"></div>
       </div>
     </section>
 
-    <section id="sites" class="section-card p-5">
-      <div class="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+    <section id="sites" class="section-card section-pad">
+      <div style="display:flex; gap:16px; justify-content:space-between; align-items:flex-end; flex-wrap:wrap;">
         <div>
-          <h3 class="text-2xl font-bold m-0">Site inventory table</h3>
-          <p class="tiny mt-2">This table is generated directly from the KML. It is useful for GitHub Pages, presentations, and quick QA checks.</p>
+          <h3 class="section-title">Site inventory table</h3>
+          <p class="copy" style="margin-top:10px; font-size:1rem;">This table is generated directly from the KML and is useful for GitHub Pages, presentations, and quick QA checks.</p>
         </div>
         <div class="tiny">Tip: replace the KML with your full 92-location file later and the table will update automatically.</div>
       </div>
-      <div class="table-wrap mt-4 max-h-[520px] overflow-auto rounded-2xl border border-slate-200">
+      <div class="table-wrap" style="margin-top:16px;">
         <table>
           <thead>
             <tr>
@@ -423,59 +815,61 @@
       </div>
     </section>
 
-    <section id="workflow" class="section-card p-6">
-      <h3 class="text-2xl font-bold m-0">Suggested project workflow section</h3>
-      <div class="mt-4 grid lg:grid-cols-4 gap-4">
-        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+    <section id="workflow" class="section-card section-pad">
+      <h3 class="section-title">Suggested project workflow section</h3>
+      <div class="workflow-grid" style="margin-top:18px;">
+        <div class="soft-card">
           <div class="tiny">Step 1</div>
-          <div class="text-xl font-bold mt-2">Inventory</div>
-          <p class="mt-2 leading-7 text-slate-700">Document all SFMS locations, routes, context, roadway classification, and installation status across Maine.</p>
+          <div style="margin-top:8px; font-size:1.4rem; font-weight:700; color:var(--ink);">Inventory</div>
+          <p class="copy" style="margin-top:10px; font-size:1rem;">Document all SFMS locations, roadway context, roadway class, and installation status across Maine.</p>
         </div>
-        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+        <div class="soft-card">
           <div class="tiny">Step 2</div>
-          <div class="text-xl font-bold mt-2">Field review</div>
-          <p class="mt-2 leading-7 text-slate-700">Use site visits, photos, and sign condition checks to verify placement, visibility, and operational context.</p>
+          <div style="margin-top:8px; font-size:1.4rem; font-weight:700; color:var(--ink);">Field review</div>
+          <p class="copy" style="margin-top:10px; font-size:1rem;">Use site visits, photos, and sign condition checks to verify placement, visibility, and operational context.</p>
         </div>
-        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+        <div class="soft-card">
           <div class="tiny">Step 3</div>
-          <div class="text-xl font-bold mt-2">Data analysis</div>
-          <p class="mt-2 leading-7 text-slate-700">Add before-after speed, speed reduction, compliance, and possible crash-related metrics when your analysis is ready.</p>
+          <div style="margin-top:8px; font-size:1.4rem; font-weight:700; color:var(--ink);">Data analysis</div>
+          <p class="copy" style="margin-top:10px; font-size:1rem;">Add before-after speed, speed reduction, compliance, and possible crash-related metrics when your analysis is ready.</p>
         </div>
-        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+        <div class="soft-card">
           <div class="tiny">Step 4</div>
-          <div class="text-xl font-bold mt-2">Recommendations</div>
-          <p class="mt-2 leading-7 text-slate-700">Summarize where SFMS appears most promising and how Maine agencies can prioritize future implementation.</p>
+          <div style="margin-top:8px; font-size:1.4rem; font-weight:700; color:var(--ink);">Recommendations</div>
+          <p class="copy" style="margin-top:10px; font-size:1rem;">Summarize where SFMS appears most promising and how Maine agencies can prioritize future implementation.</p>
         </div>
       </div>
     </section>
 
-    <section id="github-notes" class="section-card p-6">
-      <h3 class="text-2xl font-bold m-0">GitHub Pages notes</h3>
-      <div class="mt-4 grid lg:grid-cols-2 gap-6">
+    <section id="github-notes" class="section-card section-pad">
+      <h3 class="section-title">GitHub Pages notes</h3>
+      <div class="notes-grid" style="margin-top:18px;">
         <div>
-          <p class="text-slate-700 leading-8 m-0">
-            This page is designed as a <strong>single static HTML file</strong> plus your <strong>KML file</strong>.
-            No build step is required. Upload both files to the same repository root and enable GitHub Pages.
+          <p class="copy" style="margin-top:0;">
+            This page is designed as a <strong>single static HTML file</strong> plus your <strong>KML file</strong> and the <strong>project image</strong>.
+            No build step is required. Upload the files to the same repository root and enable GitHub Pages.
           </p>
-          <ol class="mt-4 pl-5 list-decimal leading-8 text-slate-700">
+          <ol class="list-decimal">
             <li>Create a GitHub repository.</li>
-            <li>Upload <strong>index.html</strong> and <strong>DSFS_SiteVisitMap.kml</strong>.</li>
+            <li>Upload <strong>index.html</strong>, <strong>DSFS_SiteVisitMap.kml</strong>, and <strong>project-photo.png</strong>.</li>
             <li>Go to <strong>Settings → Pages</strong>.</li>
             <li>Select the branch and root folder.</li>
             <li>Publish the site.</li>
           </ol>
         </div>
-        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+        <div class="soft-card">
           <div class="tiny">Easy future edits</div>
-          <ul class="mt-3 space-y-2 leading-8 text-slate-700 pl-5 list-disc">
+          <ul class="list-disc">
             <li>Change the statewide total in the <strong>PROJECT.totalProjectSites</strong> constant.</li>
             <li>Replace the KML with a fuller statewide file when all 92 locations are available.</li>
-            <li>Add a photos folder and link images to each site later.</li>
+            <li>Swap the project image with another photo or illustration later.</li>
             <li>Insert your results section after you complete the speed analysis.</li>
           </ul>
         </div>
       </div>
     </section>
+
+    <div class="footer-note">Prepared as a GitHub-ready Maine SFMS project page.</div>
   </main>
 
   <script>
@@ -484,6 +878,7 @@
       title: 'Speed Feedback Message Signs',
       totalProjectSites: 92,
       kmlPath: 'DSFS_SiteVisitMap.kml',
+      projectPhoto: 'project-photo.png',
       tripNames: {
         1: 'Trip 1 • Downeast & Penobscot',
         2: 'Trip 2 • Western & Central Maine',
@@ -492,6 +887,8 @@
       },
       tripColors: ['#2563eb', '#16a34a', '#d97706', '#9333ea', '#dc2626', '#0891b2']
     };
+
+    const THEME_KEY = 'maine-sfms-theme';
 
     let map;
     let markers = [];
@@ -514,6 +911,13 @@
         .replaceAll("'", '&#39;');
     }
 
+    function plainText(value) {
+      return String(value ?? '')
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
     function extractVisitOrder(name, description) {
       const fromName = String(name || '').match(/^(\d+)\./);
       if (fromName) return Number(fromName[1]);
@@ -524,6 +928,35 @@
 
     function inferTripName(tripId) {
       return PROJECT.tripNames[tripId] || `Trip ${tripId}`;
+    }
+
+    function getTheme() {
+      const stored = localStorage.getItem(THEME_KEY);
+      if (stored === 'light' || stored === 'dark') return stored;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      const button = document.getElementById('themeToggle');
+      const label = document.getElementById('themeToggleLabel');
+      const icon = button?.querySelector('.theme-icon');
+      const dark = theme === 'dark';
+
+      if (button) button.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      if (label) label.textContent = dark ? 'Light mode' : 'Dark mode';
+      if (icon) icon.textContent = dark ? '☀' : '☾';
+
+      if (tripChart) renderTripChart();
+      if (map) {
+        setTimeout(() => map.invalidateSize(), 50);
+      }
+    }
+
+    function toggleTheme() {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(THEME_KEY, next);
+      applyTheme(next);
     }
 
     function initializeMap() {
@@ -548,8 +981,8 @@
         const point = placemark.getElementsByTagName('Point')[0];
         if (!point) return;
 
-        const name = placemark.getElementsByTagName('name')[0]?.textContent?.trim() || 'Unnamed site';
-        const description = placemark.getElementsByTagName('description')[0]?.textContent?.trim() || '';
+        const name = plainText(placemark.getElementsByTagName('name')[0]?.textContent?.trim() || 'Unnamed site');
+        const description = plainText(placemark.getElementsByTagName('description')[0]?.textContent?.trim() || '');
         const coordinatesText = point.getElementsByTagName('coordinates')[0]?.textContent?.trim();
         if (!coordinatesText) return;
 
@@ -582,6 +1015,7 @@
       const legend = document.getElementById('legendChips');
       const tripFilter = document.getElementById('tripFilter');
       legend.innerHTML = '';
+      tripFilter.innerHTML = '<option value="all">All trip groups</option>';
 
       const uniqueTrips = [...new Set(allSites.map((site) => site.tripId))];
       uniqueTrips.forEach((tripId) => {
@@ -622,12 +1056,12 @@
             color,
             weight: 2,
             fillColor: color,
-            fillOpacity: 0.8
+            fillOpacity: 0.82
           }).addTo(map);
 
           marker.bindPopup(`
-            <div style="min-width:220px; line-height:1.55;">
-              <div style="font-size:1.02rem; font-weight:700; margin-bottom:6px;">${escapeHtml(site.name)}</div>
+            <div style="min-width:220px; line-height:1.6; font-family:'Times New Roman', Times, serif;">
+              <div style="font-size:1.05rem; font-weight:700; margin-bottom:6px;">${escapeHtml(site.name)}</div>
               <div><strong>Trip:</strong> ${escapeHtml(site.tripName)}</div>
               <div><strong>Visit order:</strong> ${site.visitOrder ?? '—'}</div>
               <div><strong>Latitude:</strong> ${site.lat.toFixed(6)}</div>
@@ -643,14 +1077,14 @@
           const line = L.polyline(coordinates, {
             color,
             weight: 3,
-            opacity: 0.45,
+            opacity: 0.48,
             dashArray: '8 8'
           }).addTo(map);
           polylines.push(line);
         }
       });
 
-      if (filteredSites.length) {
+      if (filteredSites.length && markers.length) {
         const group = L.featureGroup(markers);
         map.fitBounds(group.getBounds().pad(0.08));
       }
@@ -661,7 +1095,7 @@
       list.innerHTML = '';
 
       if (!filteredSites.length) {
-        list.innerHTML = '<div class="site-row"><div class="text-lg font-bold">No matching sites</div><div class="tiny mt-1">Try removing the search text or changing the trip filter.</div></div>';
+        list.innerHTML = '<div class="site-row"><div style="font-size:1.2rem; font-weight:700; color:var(--ink);">No matching sites</div><div class="tiny" style="margin-top:6px;">Try removing the search text or changing the trip filter.</div></div>';
         return;
       }
 
@@ -669,12 +1103,12 @@
         const row = document.createElement('div');
         row.className = `site-row ${selectedSiteId === site.id ? 'active' : ''}`;
         row.innerHTML = `
-          <div class="flex items-start justify-between gap-3">
+          <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start;">
             <div>
-              <div class="font-bold text-[1.03rem]">${escapeHtml(site.name)}</div>
-              <div class="tiny mt-1">${escapeHtml(site.tripName)} • Visit order: ${site.visitOrder ?? '—'}</div>
+              <div style="font-weight:700; font-size:1.03rem; color:var(--ink);">${escapeHtml(site.name)}</div>
+              <div class="tiny" style="margin-top:5px;">${escapeHtml(site.tripName)} • Visit order: ${site.visitOrder ?? '—'}</div>
             </div>
-            <div class="chip" style="border-color:${getTripColor(site.tripId)}33; color:${getTripColor(site.tripId)};">Trip ${site.tripId}</div>
+            <div class="chip" style="border-color:${getTripColor(site.tripId)}44; color:${getTripColor(site.tripId)};">Trip ${site.tripId}</div>
           </div>
         `;
         row.addEventListener('click', () => selectSite(site.id, true));
@@ -687,8 +1121,8 @@
       if (!site) {
         box.innerHTML = `
           <div class="tiny">No site selected yet.</div>
-          <div class="mt-2 text-xl font-bold">Click any marker or row from the site list.</div>
-          <p class="mt-3 text-slate-700 leading-7">This panel will show the site name, inferred trip group, visit order, and coordinates.</p>
+          <div style="margin-top:8px; font-size:1.5rem; font-weight:700; color:var(--ink);">Click any marker or row from the site list.</div>
+          <p class="copy" style="margin-top:12px; font-size:1rem;">This panel will show the site name, inferred trip group, visit order, and coordinates.</p>
         `;
         return;
       }
@@ -698,28 +1132,26 @@
           <span class="dot" style="background:${getTripColor(site.tripId)}"></span>
           ${escapeHtml(site.tripName)}
         </div>
-        <div class="mt-3 text-2xl font-bold leading-tight">${escapeHtml(site.name)}</div>
-        <div class="mt-4 grid grid-cols-2 gap-3">
-          <div class="rounded-xl border border-slate-200 bg-white p-3">
+        <div style="margin-top:12px; font-size:1.8rem; font-weight:700; line-height:1.2; color:var(--ink);">${escapeHtml(site.name)}</div>
+        <div class="stat-mini-grid">
+          <div class="mini-card">
             <div class="tiny">Visit order</div>
-            <div class="text-xl font-bold mt-1">${site.visitOrder ?? '—'}</div>
+            <div style="margin-top:6px; font-size:1.2rem; font-weight:700; color:var(--ink);">${site.visitOrder ?? '—'}</div>
           </div>
-          <div class="rounded-xl border border-slate-200 bg-white p-3">
+          <div class="mini-card">
             <div class="tiny">Internal site ID</div>
-            <div class="text-xl font-bold mt-1">${site.id}</div>
+            <div style="margin-top:6px; font-size:1.2rem; font-weight:700; color:var(--ink);">${site.id}</div>
           </div>
-          <div class="rounded-xl border border-slate-200 bg-white p-3">
+          <div class="mini-card">
             <div class="tiny">Latitude</div>
-            <div class="text-[1.02rem] font-bold mt-1">${site.lat.toFixed(6)}</div>
+            <div style="margin-top:6px; font-size:1.02rem; font-weight:700; color:var(--ink);">${site.lat.toFixed(6)}</div>
           </div>
-          <div class="rounded-xl border border-slate-200 bg-white p-3">
+          <div class="mini-card">
             <div class="tiny">Longitude</div>
-            <div class="text-[1.02rem] font-bold mt-1">${site.lon.toFixed(6)}</div>
+            <div style="margin-top:6px; font-size:1.02rem; font-weight:700; color:var(--ink);">${site.lon.toFixed(6)}</div>
           </div>
         </div>
-        <p class="mt-4 text-slate-700 leading-7">
-          ${site.description ? escapeHtml(site.description) : 'No extra description was found in the current KML for this site.'}
-        </p>
+        <p class="copy" style="margin-top:14px; font-size:1rem;">${site.description ? escapeHtml(site.description) : 'No extra description was found in the current KML for this site.'}</p>
       `;
     }
 
@@ -751,14 +1183,14 @@
       });
 
       cardWrap.innerHTML = groups.map((group) => `
-        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+        <div class="soft-card">
           <div class="chip" style="border-color:${getTripColor(group.tripId)}44; color:${getTripColor(group.tripId)};">
             <span class="dot" style="background:${getTripColor(group.tripId)}"></span>
             ${escapeHtml(group.name)}
           </div>
-          <div class="mt-3 text-xl font-bold">${group.count} loaded sites</div>
-          <div class="tiny mt-2">First: ${escapeHtml(group.first)}</div>
-          <div class="tiny mt-1">Last: ${escapeHtml(group.last)}</div>
+          <div style="margin-top:12px; font-size:1.35rem; font-weight:700; color:var(--ink);">${group.count} loaded sites</div>
+          <div class="tiny" style="margin-top:8px;">First: ${escapeHtml(group.first)}</div>
+          <div class="tiny" style="margin-top:4px;">Last: ${escapeHtml(group.last)}</div>
         </div>
       `).join('');
     }
@@ -768,6 +1200,9 @@
       const labels = [...new Set(allSites.map((site) => site.tripId))].map((tripId) => inferTripName(tripId));
       const data = [...new Set(allSites.map((site) => site.tripId))].map((tripId) => allSites.filter((site) => site.tripId === tripId).length);
       const colors = [...new Set(allSites.map((site) => site.tripId))].map((tripId) => getTripColor(tripId));
+      const styles = getComputedStyle(document.documentElement);
+      const ink = styles.getPropertyValue('--ink').trim();
+      const border = styles.getPropertyValue('--border').trim();
 
       if (tripChart) tripChart.destroy();
       tripChart = new Chart(ctx, {
@@ -782,10 +1217,26 @@
           }]
         },
         options: {
-          plugins: { legend: { display: false } },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              titleColor: '#fff',
+              bodyColor: '#fff'
+            }
+          },
           responsive: true,
           scales: {
-            y: { beginAtZero: true, ticks: { precision: 0 } }
+            x: {
+              ticks: { color: ink },
+              grid: { display: false },
+              border: { color: border }
+            },
+            y: {
+              beginAtZero: true,
+              ticks: { precision: 0, color: ink },
+              grid: { color: border },
+              border: { color: border }
+            }
           }
         }
       });
@@ -862,7 +1313,11 @@
     }
 
     async function bootstrap() {
+      applyTheme(getTheme());
+      const heroImage = document.getElementById('heroProjectPhoto');
+      if (heroImage) heroImage.src = PROJECT.projectPhoto;
       initializeMap();
+
       try {
         allSites = await loadKmlSites();
         filteredSites = [...allSites];
@@ -879,12 +1334,13 @@
         document.getElementById('subsetSummary').textContent = 'KML could not be loaded.';
         document.getElementById('siteList').innerHTML = `
           <div class="site-row">
-            <div class="text-lg font-bold">KML loading error</div>
-            <div class="tiny mt-1">Make sure DSFS_SiteVisitMap.kml is in the same folder as index.html.</div>
+            <div style="font-size:1.2rem; font-weight:700; color:var(--ink);">KML loading error</div>
+            <div class="tiny" style="margin-top:6px;">Make sure DSFS_SiteVisitMap.kml is in the same folder as index.html.</div>
           </div>
         `;
       }
 
+      document.getElementById('themeToggle').addEventListener('click', toggleTheme);
       document.getElementById('searchInput').addEventListener('input', applyFilters);
       document.getElementById('tripFilter').addEventListener('change', applyFilters);
       document.getElementById('fitAllBtn').addEventListener('click', () => {
