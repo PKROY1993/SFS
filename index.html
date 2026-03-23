@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Maine Speed Feedback Message Signs</title>
-  <meta name="description" content="GitHub-ready project website for Maine Speed Feedback Message Signs with a project image, interactive KML map, and dark/light mode." />
+  <meta name="description" content="Maine Speed Feedback Message Signs" />
 
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://unpkg.com" crossorigin>
@@ -615,7 +615,6 @@
         <a class="nav-link" href="#map-section">Map</a>
         <a class="nav-link" href="#sites">Sites</a>
         <a class="nav-link" href="#workflow">Workflow</a>
-        <a class="nav-link" href="#github-notes">GitHub Notes</a>
         <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">
           <span class="theme-icon">☾</span>
           <span id="themeToggleLabel">Dark mode</span>
@@ -631,11 +630,9 @@
           <span class="dot" style="background: var(--brand);"></span>
           Maine-focused safety project for Speed Feedback Message Signs
         </div>
-        <h2 class="hero-title">A GitHub-ready project page for your <span>Speed Feedback Message Signs</span> study in Maine</h2>
+        <h2 class="hero-title"> <span>Speed Feedback Message Signs</span> study in Maine</h2>
         <p class="hero-text">
-          This updated version gives your project website a stronger visual identity with a dedicated project image,
-          a cleaner GitHub Pages presentation, an interactive KML-driven site map, and a built-in dark/light mode toggle.
-          It keeps the statewide project scope visible while remaining honest about the mapped subset currently loaded from the KML.
+          Statewide project scope visible while remaining honest about the mapped subset currently loaded.
         </p>
         <div class="chip-row">
           <span class="chip"><span class="dot" style="background: var(--brand);"></span>Maine focus</span>
@@ -652,7 +649,7 @@
             <div class="photo-kicker">Project illustration</div>
             <div class="photo-title">Visual identity for the Maine SFMS project</div>
             <p class="photo-text">
-              The homepage now uses your project image to make the site feel more complete for GitHub, presentations, and research sharing.
+              The section showing the project presentations, and research...
             </p>
           </div>
         </div>
@@ -701,14 +698,13 @@
         <h3 class="section-title">Project framing</h3>
         <p class="copy">
           Speed Feedback Message Signs are being examined across Maine as a practical speed-management and safety-support tool.
-          This page can work as a project website, portfolio entry, field dashboard, or presentation companion.
         </p>
       </div>
       <div class="section-card section-pad">
         <h3 class="section-title">Suggested sections for your final research site</h3>
         <ul class="list-disc">
           <li>Project background and why SFMS matters in Maine.</li>
-          <li>Map of sign locations, grouped by field-visit route or district.</li>
+          <li>Map of sign locations, grouped by field-visit route.</li>
           <li>Site inventory table with coordinates and visit order.</li>
           <li>Methodology, before-after speed analysis, and findings.</li>
           <li>Photos, installation status, and future engineering recommendations.</li>
@@ -718,8 +714,7 @@
 
     <section class="note-banner">
       <strong>Important note:</strong>
-      Your project scope is <strong>92 total locations</strong>, while the uploaded <strong>KML contains the mapped subset currently available</strong>.
-      The dashboard shows both values clearly so the website stays accurate while still reflecting the full Maine project.
+      Project scope is <strong>92 total locations</strong>, while the uploaded <strong>KML contains the mapped subset currently available</strong>.
     </section>
 
     <section id="map-section" class="details-grid">
@@ -784,7 +779,6 @@
         <h3 class="section-title">How the current grouping works</h3>
         <p class="copy" style="margin-top:10px; font-size:1rem;">
           The current KML uses repeated visit numbering, so this page automatically creates a new trip group each time the numbering resets.
-          That keeps the dashboard flexible if you later replace the KML with a fuller statewide file.
         </p>
         <div id="tripSummaryCards" style="margin-top:16px; display:grid; gap:12px;"></div>
       </div>
@@ -794,9 +788,9 @@
       <div style="display:flex; gap:16px; justify-content:space-between; align-items:flex-end; flex-wrap:wrap;">
         <div>
           <h3 class="section-title">Site inventory table</h3>
-          <p class="copy" style="margin-top:10px; font-size:1rem;">This table is generated directly from the KML and is useful for GitHub Pages, presentations, and quick QA checks.</p>
+          <p class="copy" style="margin-top:10px; font-size:1rem;">This table is generated directly from the KML and is useful for presentations, and quick QA checks.</p>
         </div>
-        <div class="tiny">Tip: replace the KML with your full 92-location file later and the table will update automatically.</div>
+        <div>
       </div>
       <div class="table-wrap" style="margin-top:16px;">
         <table>
@@ -831,7 +825,7 @@
         <div class="soft-card">
           <div class="tiny">Step 3</div>
           <div style="margin-top:8px; font-size:1.4rem; font-weight:700; color:var(--ink);">Data analysis</div>
-          <p class="copy" style="margin-top:10px; font-size:1rem;">Add before-after speed, speed reduction, compliance, and possible crash-related metrics when your analysis is ready.</p>
+          <p class="copy" style="margin-top:10px; font-size:1rem;">Add before-after speed, speed reduction, compliance, and possible crash-related metrics when analysis is ready.</p>
         </div>
         <div class="soft-card">
           <div class="tiny">Step 4</div>
@@ -846,8 +840,7 @@
       <div class="notes-grid" style="margin-top:18px;">
         <div>
           <p class="copy" style="margin-top:0;">
-            This page is designed as a <strong>single static HTML file</strong> plus your <strong>KML file</strong> and the <strong>project image</strong>.
-            No build step is required. Upload the files to the same repository root and enable GitHub Pages.
+            This page is designed as a <strong>single static HTML file</strong> plus <strong>KML file</strong> and the <strong>project image</strong>.
           </p>
           <ol class="list-decimal">
             <li>Create a GitHub repository.</li>
@@ -861,16 +854,19 @@
           <div class="tiny">Easy future edits</div>
           <ul class="list-disc">
             <li>Change the statewide total in the <strong>PROJECT.totalProjectSites</strong> constant.</li>
-            <li>Replace the KML with a fuller statewide file when all 92 locations are available.</li>
-            <li>Swap the project image with another photo or illustration later.</li>
-            <li>Insert your results section after you complete the speed analysis.</li>
+            <li>Statewide file when all 92 locations are available.</li>
+            <li>Another photo later.</li>
+            <li>Insert results section after complete the speed analysis.</li>
           </ul>
         </div>
       </div>
     </section>
-
-    <div class="footer-note">Prepared as a GitHub-ready Maine SFMS project page.</div>
-  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="divider"></div>
+      <p>© <span id="year"></span> UMaine TE LAB </p>
+    </div>
+  </footer>
 
   <script>
     const PROJECT = {
